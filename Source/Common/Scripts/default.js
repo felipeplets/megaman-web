@@ -1,5 +1,5 @@
 /*************************************
-* Megaman Desert Conquer 0.2
+* Megaman Desert Conquer 0.3
 *
 * Colaboradores:
 *
@@ -7,25 +7,12 @@
 *       Juliano Pacheco
 *       Henrique Schuster
 *
-* Data: 12/04/2010
+* Data: 02/05/2010
 *
 * Dependências: 
 *
 *       jQuery 1.4
 *       GameQuery 0.4
-*
-* History:
-*
-*       Megaman Desert Conquer 0.1 [09.04.2010]
-*       
-*              - 7 inimigos apenas [ADD]
-*
-*       Megaman Desert Conquer 0.2 [12.04.2010]
-*       
-*              - Inimigos ilimitados com posição randômica [ENH]
-*              - Figura dos cactos na frente do mega [ENH]
-*              - Diversas melhorias no código do jogo [ENH]
-*              - Adicionada pontuação ao jogo [ADD]
 *
 * TODO: 
 *
@@ -112,33 +99,33 @@ function Window_OnLoad() {
                                   width    : 120,
                                   height   : 25})
 							.addSprite("life", { 
-                                  posx     : Mega.Playground.Width - 600, 
-                                  posy     : 280,
+                                  posx     : Mega.Playground.Width - 320, 
+                                  posy     : 0,
                                   width    : 80,
                                   height   : 25})
 							 .addSprite("energy", { 
-                                  posx     : Mega.Playground.Width - 520, 
-                                  posy     : 280,
+                                  posx     : Mega.Playground.Width - 230, 
+                                  posy     : 0,
                                   width    : 100,
                                   height   : 25});;
 
-  $("#points").text("Pontos: ");
+  $("#points").text("Pontos: " + Mega.User.Points);
   $("#points").css("color", "#FFF");
   $("#points").css("background-color", "#333");
   $("#points").css("text-align", "left");
   $("#points").css("padding", "5px");
      
-  $("#life").text("Vidas: "+ Mega.User.Life);
+  $("#life").text("Vidas: " + Mega.User.Life);
   $("#life").css("color", "#FFF");
   $("#life").css("background-color", "#333");
   $("#life").css("text-align", "left");
-  $("#life").css("padding", "1px"); 
+  $("#life").css("padding", "5px"); 
   
   $("#energy").text("Energia: "+ Mega.User.Energy);
   $("#energy").css("color", "#FFF");
   $("#energy").css("background-color", "#333");
   $("#energy").css("text-align", "left");
-  $("#energy").css("padding", "1px");
+  $("#energy").css("padding", "5px");
 
   // Callback da arma
   $("#gun_laser").setAnimation(Mega.Animations.Gun, gun_cb);
@@ -200,6 +187,8 @@ function fpsloop() {
 
 // Função de loop executada a cada 40 milisegundos
 function MainLoop(){
+
+    if (Mega.User.Dead) return;
 
 	// Move o fundo
 	BkgScroll -= 1;
@@ -281,12 +270,34 @@ function MainLoop(){
 		$("#energy").text("Energia: " + Mega.User.Energy);
 		//aqui deve veriricar a energia do mega man e caso chegar a zero, deve recomeçar a fase se tiver vidas
 		if(Mega.User.Energy == 0){
+			// Define a energia como 100 novamente
 			Mega.User.Energy = 100;
+			// Reduz o número de vidas
 			Mega.User.Life =  Mega.User.Life-1;
-			//aqui recarrega a pagina
+			// Atualiza o contador de vidas na tela
+	  	    $("#life").text("Vidas: " + Mega.User.Life);
+			// Faz o personagem explodir
+       		$("#player").setAnimation(Mega.Animations.Explosion, 
+									    function(PoPlayer){ 
+										  // remove o mega após a explosão
+										  $(PoPlayer).remove();
+										  // redefine as posições do personagem
+										  playerPosX = 50;
+										  playerPosY = 75;
+										  // Adiciona novamente o player ao playground
+										  $.playground().addSprite("player",
+			  		  	                                           { posx: playerPosX,
+						                                             posy: playerPosY,
+						                                             height: 50,
+						                                             width: 54,
+						                                             animation: Mega.Animations.Player});
+										});
+			
+			// Se a vida chegou a 0, exibe a página para entrar com o nome para o ranking
+			if (Mega.User.Life == 0) Mega.Stop();
 		}
 	}).each(function(){
-		$(this).remove();
+        $(this).remove();
 		return;
 	});
 	

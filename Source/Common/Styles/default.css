@@ -52,7 +52,8 @@ h2 {
   text-align: left;
 }
 
-#playground {
+#playground, 
+#pnlRegisterScore {
   width: 600px;
   height: 300px;
   position: absolute;
@@ -67,6 +68,25 @@ h2 {
   -moz-background-origin: -moz-initial;
   -moz-background-inline-policy: -moz-initial;
   background-position: 0px 0px;
+}
+
+#pnlRegisterScore {
+  height: 200px;
+  background: #FFF;
+  z-index: 999999;
+  font-size: 25px;
+  color: #000;
+  display: none;
+  padding-top: 100px;
+}
+
+#pnlRegisterScore input {
+  font-size: 25px;
+  width: 50px;
+}
+
+#pnlRegisterScore button {
+  color: #000;
 }
 
 #intro {

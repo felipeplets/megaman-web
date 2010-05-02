@@ -6,8 +6,14 @@
         <link type="text/css" href="Common/Styles/default.css" rel="stylesheet" />
     </head>
     <body>
-        <div id="pnlMain"/><h1>Megaman Desert Conquer</h1>
+        <div id="pnlMain"/>
+        <h1>Megaman Desert Conquer</h1>
         <br/>
+        <div id="pnlRegisterScore">
+          <label for="edtUserName">Usuário: </label><input id="edtUserName" maxlength="3" /> (3 letras) <br />
+          <span id="lblFinalScor"></span><br />
+          <button id="btnScore" type="button">Registrar</button>
+        </div>
         <div id="playground">
             <div id="intro">
                 <div id="loadingBar">
@@ -20,7 +26,7 @@
         <div id="debug">
             Controles: <b>Setas do teclado para mover-se e X para atirar</b>
             <br/>
-            Versão 0.1 
+            Versão 0.3 
             <br/>
             <a href="http://www.plets.com.br/">Felipe "Plets" dos Santos</a>
             <br/>

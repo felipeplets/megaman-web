@@ -16,9 +16,11 @@ Mega.User = {};
 // Pontos do usuário
 Mega.User.Points = 0;
 // Energia do usuário
-Mega.User.Energy = 20;
+Mega.User.Energy = 100;
 // Vidas do usuário
-Mega.User.Life = 5;
+Mega.User.Life = 3;
+// Se o usuário está morto
+Mega.User.Dead = false;
 
 // Inicia o jogo
 Mega.Start = function() {
@@ -32,13 +34,26 @@ Mega.Start_cb = function() {
   // Define a função que verifica qual foi a tecla pressionada
   $(document).keydown(Window_OnKeydown);
 
-  // Remove o elemento de introdução
-  $("#intro").remove();
+  // esconde o elemento de introdução
+  $("#intro").hide();
     
   $("#background").css("background-repeat", "repeat-x");
   $("#foreground").css("background-repeat", "repeat-x");
 }
 
+// Encerra o jogo
+Mega.Stop = function() {
+  
+  // Remove a funcionalidade de teclado do jogo
+  $(document).unbind("keydown");
+
+  // Exibe o score final do usuário
+  $("#lblFinalScor").text(Mega.User.Points + " pontos!")
+
+  // Define o player como morto
+  Mega.User.Dead = true;
+  $("#pnlRegisterScore").fadeTo("slow", 0.8);
+}
 
 // Cria uma animação
 Mega.CreateAnimation = function (PsImageURL, PiNumberOfFrame, PiDelta, PiRate, PeType) {
