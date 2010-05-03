@@ -52,7 +52,46 @@ Mega.Stop = function() {
 
   // Define o player como morto
   Mega.User.Dead = true;
+  
+  // Abre a tela para o usuário colocar o nome 
   $("#pnlRegisterScore").fadeTo("slow", 0.8);
+  
+  // Define a ação do botão de registrar o Score
+  $("#btnScore").click(Mega.SetCore);
+}
+
+// Envia para o server os dados do usuário
+Mega.SetCore = function() {
+  $.ajax({
+  	type     : 'GET',
+	url      : "ajax.php/SETSCORE",
+	data     : "textid=" + "",
+	dataType : 'json',
+	success  : function(PoData) {
+	  // Caso retorne algo então chama a função para buscar os scores do top 10
+	  if(PoData.result){
+		Mega.GetScoreList();
+	  }
+	}
+  });
+}
+
+// Busca os 10 melhores scores do server
+Mega.GetScoreList = function() {
+  $.ajax({
+	type     : 'GET',
+	url      : "ajax.php/GETSCORELIST",
+	dataType : 'json',
+	success  : function(PoData) {
+	  if(PoData.result){
+		$("#pnlRegisterScore").hide();
+		$("#pnlRegisterScoreList").fadeTo("slow", 0.8);
+		for (var i = 0; i < PoData.result.length; i++) {
+		  $("#pnlRegisterScoreList ul").html($("#pnlRegisterScoreList ul").html() + "<ol>" + PoData.result[i][1] + " - " + PoData.result[i][0] + "</ol>");		
+		}
+	  }
+	}
+  });	
 }
 
 // Cria uma animação

@@ -6,7 +6,7 @@
         <link type="text/css" href="Common/Styles/default.css" rel="stylesheet" />
     </head>
     <body>
-        <div id="pnlMain"/>
+        <div id="pnlMain">
         <h1>Megaman Desert Conquer</h1>
         <br/>
         <div id="pnlRegisterScore">
@@ -14,6 +14,7 @@
           <span id="lblFinalScor"></span><br />
           <button id="btnScore" type="button">Registrar</button>
         </div>
+        <div id="pnlRegisterScoreList"><ul></ul></div>
         <div id="playground">
             <div id="intro">
                 <div id="loadingBar">
